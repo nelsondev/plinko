@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/circle.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Ball_Ghost.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Ball.gd" type="Script" id=3]
+
+[sub_resource type="PhysicsMaterial" id=16]
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id=15]
+radius = 5.0
+
+[sub_resource type="Curve" id=17]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=18]
+curve = SubResource( 17 )
+
+[sub_resource type="ParticlesMaterial" id=19]
+flag_disable_z = true
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale_curve = SubResource( 18 )
+
+[node name="Ball" type="RigidBody2D" groups=["ball"]]
+physics_material_override = SubResource( 16 )
+gravity_scale = 2.5
+script = ExtResource( 3 )
+GHOST = ExtResource( 2 )
+VELOCITY = 250
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 15 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+amount = 20
+lifetime = 0.25
+local_coords = false
+process_material = SubResource( 19 )
+texture = ExtResource( 1 )

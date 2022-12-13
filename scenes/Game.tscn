@@ -1,0 +1,374 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://scenes/End.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Bumper.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Peg.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Camera2D.gd" type="Script" id=5]
+[ext_resource path="res://assets/ship1.png" type="Texture" id=6]
+[ext_resource path="res://assets/ship2.png" type="Texture" id=7]
+[ext_resource path="res://godot/theme.tres" type="Theme" id=8]
+[ext_resource path="res://assets/gear.png" type="Texture" id=9]
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform vec4 bg_color: hint_color;
+
+float rand(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+void fragment() {
+	float size = 20.0;
+	float prob = 0.995;
+	vec2 pos = floor(1.0 / size * FRAGCOORD.xy);
+	float color = 0.0;
+	float starValue = rand(pos);
+
+	if (starValue > prob)
+	{
+		vec2 center = size * pos + vec2(size, size) * 0.5;
+		float t = 0.9 + 0.2 * sin(TIME * 8.0 + (starValue - prob) / (1.0 - prob) * 45.0);
+		color = 1.0 - distance(FRAGCOORD.xy, center) / (0.5 * size);
+		color = color * t / (abs(FRAGCOORD.y - center.y)) * t / (abs(FRAGCOORD.x - center.x));
+	}
+	else if (rand(SCREEN_UV.xy / 20.0) > 0.996)
+	{
+		float r = rand(SCREEN_UV.xy);
+		color = r * (0.85 * sin(TIME * (r * 5.0) + 720.0 * r) + 0.95);
+	}
+	COLOR = vec4(vec3(color),1.0) + bg_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
+shader_param/bg_color = Color( 0.133333, 0.12549, 0.203922, 0 )
+
+[sub_resource type="Shader" id=10]
+code = "shader_type canvas_item;
+
+uniform float battery : hint_range(0.0,1.0) = 1.0;
+uniform float anchor : hint_range(-1.0,1.0) = -0.5;
+uniform float speed_scale : hint_range(1.0, 10.0) = 1.0;
+uniform float fov : hint_range(0.01, 1.0) = 0.2;
+uniform vec4 background_color : hint_color = vec4(0.0, 0.1, 0.2, 1.0);
+uniform vec4 grid_color : hint_color = vec4(1.0, 0.5, 1.0, 1.0);
+
+float grid(vec2 uv, float batt) {
+    vec2 size = vec2(uv.y, uv.y * uv.y * 0.2) * 0.01;
+    uv += vec2(0.0, TIME * speed_scale * (batt + 0.05));
+    uv = abs(fract(uv) - 0.5);
+ 	vec2 lines = smoothstep(size, vec2(0.0), uv);
+ 	lines += smoothstep(size * 5.0, vec2(0.0), uv) * 0.4 * batt;
+    return clamp(lines.x + lines.y, 0.0, 3.0);
+}
+
+void fragment() {
+	vec2 uv = UV;
+	vec4 col = background_color;
+    uv.y = 3.0 / (abs(uv.y + fov) + 0.05);
+	uv.x += anchor;
+    uv.x *= uv.y * 1.0;
+    float gridVal = grid(uv, battery);
+    col = mix(background_color, grid_color, gridVal);
+	COLOR = col;
+}"
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
+shader_param/battery = 0.0
+shader_param/anchor = -0.5
+shader_param/speed_scale = 1.0
+shader_param/fov = 0.04
+shader_param/background_color = Color( 0, 0.101961, 0.2, 0 )
+shader_param/grid_color = Color( 0.156863, 0.145098, 0.258824, 1 )
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 248, 6 )
+
+[node name="Game" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Settings" type="Button" parent="CanvasLayer"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 76.0
+margin_bottom = 76.0
+theme = ExtResource( 8 )
+icon = ExtResource( 9 )
+expand_icon = true
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+margin_left = 820.0
+margin_top = 12.0
+margin_right = 948.0
+margin_bottom = 76.0
+theme = ExtResource( 8 )
+text = "balls: 5"
+
+[node name="Board" type="Node2D" parent="."]
+
+[node name="Level" type="Node2D" parent="Board"]
+
+[node name="Outline" type="Panel" parent="Board/Level"]
+margin_left = -248.0
+margin_top = -228.0
+margin_right = 248.0
+margin_bottom = 220.0
+theme = ExtResource( 8 )
+
+[node name="Space" type="Panel" parent="Board/Level"]
+material = SubResource( 9 )
+margin_left = -240.0
+margin_top = -220.0
+margin_right = 240.0
+margin_bottom = 212.0
+theme = ExtResource( 8 )
+
+[node name="Grid" type="Panel" parent="Board/Level"]
+material = SubResource( 11 )
+margin_left = -240.0
+margin_top = -220.0
+margin_right = 240.0
+margin_bottom = 212.0
+theme = ExtResource( 8 )
+
+[node name="Bounds" type="StaticBody2D" parent="Board/Level"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Board/Level/Bounds"]
+position = Vector2( -400, -252 )
+polygon = PoolVector2Array( 152, 472, 152, 24, 648, 24, 648, 472, 640, 472, 640, 32, 160, 32, 160, 472 )
+
+[node name="Bumper" parent="Board/Level" instance=ExtResource( 3 )]
+position = Vector2( 0, 220 )
+
+[node name="Bumper2" parent="Board/Level" instance=ExtResource( 3 )]
+position = Vector2( -136, 220 )
+
+[node name="Bumper3" parent="Board/Level" instance=ExtResource( 3 )]
+position = Vector2( 136, 220 )
+
+[node name="End" type="Area2D" parent="Board/Level"]
+position = Vector2( 0, 216 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Board/Level/End"]
+position = Vector2( 0, -2 )
+shape = SubResource( 20 )
+
+[node name="Pegs" type="Node2D" parent="Board"]
+
+[node name="Peg" parent="Board/Pegs" instance=ExtResource( 4 )]
+
+[node name="Peg2" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -32, 32 )
+
+[node name="Peg3" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 0, 32 )
+
+[node name="Peg4" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 32, 32 )
+
+[node name="Peg5" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 32, 0 )
+
+[node name="Peg6" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -32, 0 )
+
+[node name="Peg7" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -32, -32 )
+
+[node name="Peg8" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 0, -32 )
+
+[node name="Peg9" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 32, -32 )
+
+[node name="Peg10" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -96, 0 )
+
+[node name="Peg11" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -128, 32 )
+
+[node name="Peg12" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -96, 32 )
+
+[node name="Peg13" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -64, 32 )
+
+[node name="Peg14" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -64, 0 )
+
+[node name="Peg15" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -128, 0 )
+
+[node name="Peg16" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -128, -32 )
+
+[node name="Peg17" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -96, -32 )
+
+[node name="Peg18" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -64, -32 )
+
+[node name="Peg19" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 96, 0 )
+
+[node name="Peg20" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 64, 32 )
+
+[node name="Peg21" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 96, 32 )
+
+[node name="Peg22" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 128, 32 )
+
+[node name="Peg23" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 128, 0 )
+
+[node name="Peg24" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 64, 0 )
+
+[node name="Peg25" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 64, -32 )
+
+[node name="Peg26" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 96, -32 )
+
+[node name="Peg27" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 128, -32 )
+
+[node name="Peg28" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -180, -88 )
+
+[node name="Peg29" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -212, -56 )
+
+[node name="Peg30" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -180, -56 )
+
+[node name="Peg31" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -148, -56 )
+
+[node name="Peg32" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -148, -88 )
+
+[node name="Peg33" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -212, -88 )
+
+[node name="Peg34" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -212, -120 )
+
+[node name="Peg35" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -180, -120 )
+
+[node name="Peg36" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -148, -120 )
+
+[node name="Peg37" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 180, -88 )
+
+[node name="Peg38" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 148, -56 )
+
+[node name="Peg39" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 180, -56 )
+
+[node name="Peg40" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 212, -56 )
+
+[node name="Peg41" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 212, -88 )
+
+[node name="Peg42" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 148, -88 )
+
+[node name="Peg43" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 148, -120 )
+
+[node name="Peg44" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 180, -120 )
+
+[node name="Peg45" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 212, -120 )
+
+[node name="Peg46" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -184, 88 )
+
+[node name="Peg47" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -216, 120 )
+
+[node name="Peg48" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -184, 120 )
+
+[node name="Peg49" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -152, 120 )
+
+[node name="Peg50" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -152, 88 )
+
+[node name="Peg51" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -216, 88 )
+
+[node name="Peg52" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -216, 56 )
+
+[node name="Peg53" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -184, 56 )
+
+[node name="Peg54" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( -152, 56 )
+
+[node name="Peg55" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 184, 84 )
+
+[node name="Peg56" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 152, 116 )
+
+[node name="Peg57" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 184, 116 )
+
+[node name="Peg58" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 216, 116 )
+
+[node name="Peg59" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 216, 84 )
+
+[node name="Peg60" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 152, 84 )
+
+[node name="Peg61" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 152, 52 )
+
+[node name="Peg62" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 184, 52 )
+
+[node name="Peg63" parent="Board/Pegs" instance=ExtResource( 4 )]
+position = Vector2( 216, 52 )
+
+[node name="Balls" type="Node2D" parent="Board"]
+
+[node name="Ball" parent="Board/Balls" instance=ExtResource( 2 )]
+position = Vector2( 0, -192 )
+
+[node name="Camera2D" type="Camera2D" parent="Board"]
+current = true
+smoothing_enabled = true
+script = ExtResource( 5 )
+FOLLOW = NodePath("../Balls/Ball")
+
+[node name="Ships" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Ships"]
+position = Vector2( -336, 0 )
+rotation = 0.12155
+texture = ExtResource( 6 )
+
+[node name="Sprite2" type="Sprite" parent="Ships"]
+position = Vector2( 352, 3.99997 )
+rotation = 0.0357527
+texture = ExtResource( 7 )
+
+[connection signal="body_entered" from="Board/Level/End" to="Board/Level/End" method="_on_End_body_entered"]
