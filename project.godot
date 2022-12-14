@@ -23,6 +23,10 @@ _global_script_class_icons={
 config/name="Peggle"
 run/main_scene="res://scenes/Game.tscn"
 
+[autoload]
+
+Game="*res://Game.gd"
+
 [display]
 
 window/size/width=960
