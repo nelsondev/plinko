@@ -33,8 +33,13 @@ window/size/width=960
 window/size/height=540
 window/size/test_width=1280
 window/size/test_height=720
+mouse_cursor/custom_image_hotspot=Vector2( 0, 32 )
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[global]
+
+mouse=false
 
 [importer_defaults]
 

@@ -300,64 +300,6 @@ position = Vector2( 0, -24 )
 [node name="Peg9" parent="Board/Pegs" instance=ExtResource( 4 )]
 position = Vector2( 24, -24 )
 
-[node name="Pegs2" type="Node2D" parent="Board"]
-position = Vector2( -77, -4 )
-
-[node name="Peg" parent="Board/Pegs2" instance=ExtResource( 4 )]
-
-[node name="Peg2" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( -24, 24 )
-
-[node name="Peg3" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( 0, 24 )
-
-[node name="Peg4" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( 24, 24 )
-
-[node name="Peg5" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( 24, 0 )
-
-[node name="Peg6" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( -24, 0 )
-
-[node name="Peg7" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( -24, -24 )
-
-[node name="Peg8" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( 0, -24 )
-
-[node name="Peg9" parent="Board/Pegs2" instance=ExtResource( 4 )]
-position = Vector2( 24, -24 )
-
-[node name="Pegs3" type="Node2D" parent="Board"]
-position = Vector2( 87, -10 )
-
-[node name="Peg" parent="Board/Pegs3" instance=ExtResource( 4 )]
-
-[node name="Peg2" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( -24, 24 )
-
-[node name="Peg3" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( 0, 24 )
-
-[node name="Peg4" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( 24, 24 )
-
-[node name="Peg5" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( 24, 0 )
-
-[node name="Peg6" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( -24, 0 )
-
-[node name="Peg7" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( -24, -24 )
-
-[node name="Peg8" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( 0, -24 )
-
-[node name="Peg9" parent="Board/Pegs3" instance=ExtResource( 4 )]
-position = Vector2( 24, -24 )
-
 [node name="Balls" type="Node2D" parent="Board"]
 
 [node name="Ball" parent="Board/Balls" instance=ExtResource( 2 )]
