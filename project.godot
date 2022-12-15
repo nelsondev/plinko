@@ -67,4 +67,3 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 environment/default_clear_color=Color( 0.133333, 0.12549, 0.203922, 1 )
-environment/default_environment="res://scenes/default_env.tres"

@@ -25,14 +25,14 @@ func _draw():
 	
 func _process(delta):
 	_check_collide()
+	print(Game.charge)
+	$Ball.frame = Game.charge
+	$BallFullyCharged.visible = Game.charge >= 3
 
 # Shoot da ball
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():
 		sleeping = false
-		for child in get_children(): 
-			if not child is CollisionShape2D and not child is Particles2D: 
-				remove_child(child)
 		apply_central_impulse(VELOCITY * global_position.direction_to(get_global_mouse_position()))
 
 # Create those physics simulated balls

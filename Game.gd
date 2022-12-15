@@ -12,8 +12,8 @@ func add_hits(amount = 1):
 	hits += 1
 	
 	if hits < 2: charge = 0
-	if hits < 4: charge = 1
-	if hits < 8: charge = 2
-	if hits < 16: charge = 3
+	if hits >= 4: charge = 1
+	if hits >= 8: charge = 2
+	if hits >= 16: charge = 3
 	
 	emit_signal("hits_added")
