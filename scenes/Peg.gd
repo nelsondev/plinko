@@ -13,8 +13,7 @@ func collide():
 	$AnimatedSprite.visible = false
 	
 	Game.get_camera().zoom_in(Vector2(0.9, 0.9), 1.0)
-	Game.add_charge(1)
+	Game.add_hits(1)
 	
 	yield(get_tree().create_timer(1), "timeout")
 	queue_free()
-	

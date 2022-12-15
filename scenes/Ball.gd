@@ -26,6 +26,16 @@ func _draw():
 func _process(delta):
 	_check_collide()
 
+# Shoot da ball
+func _input(event):
+	if event is InputEventMouseButton and event.is_pressed():
+		sleeping = false
+		for child in get_children(): 
+			if not child is CollisionShape2D and not child is Particles2D: 
+				remove_child(child)
+		apply_central_impulse(VELOCITY * global_position.direction_to(get_global_mouse_position()))
+
+# Create those physics simulated balls
 func _create_ghost():
 	var ball = GHOST.instance() as RigidBody2D
 	
@@ -38,16 +48,9 @@ func _create_ghost():
 	
 	add_child(ball)
 
+# Check collision with things like pegs
 func _check_collide():
 	var colliding_bodys = get_colliding_bodies()
 	for body in colliding_bodys: 
 		if body.is_in_group("collidable"):
 			body.collide()
-			
-func _input(event):
-	if event is InputEventMouseButton and event.is_pressed():
-		sleeping = false
-		for child in get_children(): 
-			if not child is CollisionShape2D and not child is Particles2D: 
-				remove_child(child)
-		apply_central_impulse(VELOCITY * global_position.direction_to(get_global_mouse_position()))
