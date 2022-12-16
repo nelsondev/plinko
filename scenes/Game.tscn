@@ -74,7 +74,7 @@ tracks/1/keys = {
 "values": [ Vector2( 1.05, 1.05 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Shader" id=8]
+[sub_resource type="Shader" id=27]
 code = "shader_type canvas_item;
 
 uniform vec4 bg_color: hint_color;
@@ -106,7 +106,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=9]
-shader = SubResource( 8 )
+shader = SubResource( 27 )
 shader_param/bg_color = Color( 0.133333, 0.12549, 0.203922, 0 )
 
 [sub_resource type="Shader" id=10]

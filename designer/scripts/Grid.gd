@@ -61,6 +61,8 @@ func _generate():
 	rect_pivot_offset = rect_size / 2
 	rect_position = (get_parent().rect_size / 2) - (rect_size / 2)
 	
+	print(rect_size)
+	
 	label.text = "Loading... Drawing grid"
 	yield(VisualServer, "frame_post_draw")
 	update()

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/556369__nox-sound__foley-object-fridge-motor-humming-loop-mono-ntg4.wav-6c162e4b322dd67ae6feb965edde95a8.sample"
+
+[deps]
+
+source_file="res://music/556369__nox-sound__foley-object-fridge-motor-humming-loop-mono-ntg4.wav"
+dest_files=[ "res://.import/556369__nox-sound__foley-object-fridge-motor-humming-loop-mono-ntg4.wav-6c162e4b322dd67ae6feb965edde95a8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0
