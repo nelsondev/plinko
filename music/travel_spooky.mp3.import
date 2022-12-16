@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/travel_spooky.mp3-a750a2bdfdc8297a170d8b3ead098991.mp3str"
+
+[deps]
+
+source_file="res://music/travel_spooky.mp3"
+dest_files=[ "res://.import/travel_spooky.mp3-a750a2bdfdc8297a170d8b3ead098991.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

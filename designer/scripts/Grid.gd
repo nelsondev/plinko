@@ -7,8 +7,8 @@ func _draw():
 	var grid = _create_grid()
 	# Draw lines
 	for position in grid:
-		draw_line(Vector2(position.x - 4, position.y), Vector2(position.x + 4, position.y), Color.white)
-		draw_line(Vector2(position.x, position.y - 4), Vector2(position.x, position.y + 4), Color.white)
+		draw_line(Vector2(position["position"].x - 4, position["position"].y), Vector2(position["position"].x + 4, position["position"].y), Color.white)
+		draw_line(Vector2(position["position"].x, position["position"].y - 4), Vector2(position["position"].x, position["position"].y + 4), Color.white)
 
 func _ready():
 	_generate()
@@ -17,7 +17,10 @@ func _create_grid():
 	var grid = []
 	for y_size in range(SIZE_GRID.y):
 		for x_size in range(SIZE_GRID.x): 
-			grid.push_back(Vector2((x_size * SIZE_PEG.x) + (SIZE_PEG.x / 2), (y_size * SIZE_PEG.y) + (SIZE_PEG.y / 2)))
+			grid.push_back({
+				"coords": Vector2(x_size, y_size),
+				"position": Vector2((x_size * SIZE_PEG.x) + (SIZE_PEG.x / 2), (y_size * SIZE_PEG.y) + (SIZE_PEG.y / 2))
+			})
 	return grid
 	
 func _create_areas():
@@ -36,12 +39,14 @@ func _create_areas():
 		shape.shape = rectangle
 		rectangle.extents = SIZE_PEG / 2
 		
-		area.position = position
+		area.position = position["position"]
 		area.input_pickable = true
 		area.set_collision_mask_bit(0, true)
 		area.set_collision_layer_bit(0, true)
 		area.connect("mouse_entered", $"/root/LevelDesigner", "_on_Grid_mouse_enter", [ area ])
 		area.connect("input_event", $"/root/LevelDesigner", "_on_Grid_input_event", [ area ])
+		area.set_meta("position", position["coords"])
+		area.set_meta("peg", -1)
 
 func _generate():
 	var label = $"../../LabelLoading"

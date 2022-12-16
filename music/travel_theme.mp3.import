@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/travel_theme.mp3-0fc627005ee14374fe2d5b9baff5ce4b.mp3str"
+
+[deps]
+
+source_file="res://music/travel_theme.mp3"
+dest_files=[ "res://.import/travel_theme.mp3-0fc627005ee14374fe2d5b9baff5ce4b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

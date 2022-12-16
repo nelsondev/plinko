@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/travel_happy.mp3-ea9e7715a91a1e9f286b7c9da480811a.mp3str"
+
+[deps]
+
+source_file="res://music/travel_happy.mp3"
+dest_files=[ "res://.import/travel_happy.mp3-ea9e7715a91a1e9f286b7c9da480811a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
