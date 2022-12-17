@@ -1,12 +1,17 @@
-extends Panel
+extends Control
 
-var panel_original_rect_y
+onready var TweenNode = get_node("PowerBar/Tween")
+var current_charge = 0
 
 func _ready():
-	panel_original_rect_y = $Panel.rect_size.y
-	Game.connect("hits_added", self, "_animate")
+	Game.connect("charge_added", self, "_animate_power_bar")
+		
+func _animate_power_bar():
+	var charge_factor = Game.charge*5
 	
-func _animate():
-	$AnimationPlayer.play("RESET")
-	$Panel.rect_size.y = panel_original_rect_y - (panel_original_rect_y * (Game.charge / 10.0))
-	$AnimationPlayer.play("wiggle")
+	TweenNode.stop_all()
+	TweenNode.interpolate_property($PowerBar, "value", current_charge, charge_factor, 0.5, Tween.TRANS_SINE, Tween.EASE_OUT)
+	TweenNode.start()
+	
+	current_charge = charge_factor
+

@@ -25,7 +25,6 @@ func _draw():
 	
 func _process(delta):
 	_check_collide()
-	print(Game.charge)
 	$Ball.frame = Game.charge
 	$Light.visible = Game.charge >= 1
 	$BallFullyCharged.visible = Game.charge >= 3

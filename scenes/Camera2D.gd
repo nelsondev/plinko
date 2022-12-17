@@ -17,11 +17,7 @@ func _process(delta):
 	var distance = 12
 	var middle = start + (start.direction_to(node.transform.origin) * distance)
 	transform.origin = middle
-	
-	if is_zoomed:
-		zoom = zoom.linear_interpolate(zoom_to, 0.1)
-	else:
-		zoom = zoom.linear_interpolate(Vector2(1.1, 1.1), 0.1)
+
 
 func zoom_in(amount, duration):
 	zoom_timer.wait_time = duration

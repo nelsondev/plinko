@@ -1,78 +1,18 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/End.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Ball.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Bumper.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Peg.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Camera2D.gd" type="Script" id=5]
+[ext_resource path="res://assets/charge-bar-full.png" type="Texture" id=6]
 [ext_resource path="res://assets/ship2.png" type="Texture" id=7]
 [ext_resource path="res://godot/theme.tres" type="Theme" id=8]
 [ext_resource path="res://assets/gear.png" type="Texture" id=9]
 [ext_resource path="res://assets/peggle.png" type="Texture" id=10]
 [ext_resource path="res://assets/green-circle.png" type="Texture" id=11]
 [ext_resource path="res://scenes/PowerBar.gd" type="Script" id=12]
-
-[sub_resource type="StyleBoxFlat" id=24]
-bg_color = Color( 0.133333, 0.12549, 0.203922, 1 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-anti_aliasing = false
-
-[sub_resource type="Animation" id=25]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Panel:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:rect_rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="Animation" id=26]
-resource_name = "wiggle"
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 5.0, 0.0, -5.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:rect_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1.05, 1.05 ), Vector2( 1, 1 ) ]
-}
+[ext_resource path="res://assets/charge-bar-empty.png" type="Texture" id=13]
 
 [sub_resource type="Shader" id=27]
 code = "shader_type canvas_item;
@@ -198,26 +138,27 @@ margin_bottom = 59.0
 theme = ExtResource( 8 )
 text = "balls: 5"
 
-[node name="PowerBar" type="Panel" parent="Board"]
-margin_left = -320.0
-margin_top = -232.0
-margin_right = -264.0
-margin_bottom = 220.0
-rect_pivot_offset = Vector2( 28, 216 )
-theme = ExtResource( 8 )
+[node name="Control" type="Control" parent="Board"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -495.0
+margin_top = -201.0
+margin_right = -455.0
+margin_bottom = -161.0
 script = ExtResource( 12 )
 
-[node name="Panel" type="Panel" parent="Board/PowerBar"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 48.0
-margin_bottom = 444.0
-custom_styles/panel = SubResource( 24 )
+[node name="PowerBar" type="TextureProgress" parent="Board/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 174.0
+margin_top = -5.0
+margin_right = 240.0
+margin_bottom = 398.0
+texture_under = ExtResource( 13 )
+texture_progress = ExtResource( 6 )
+fill_mode = 3
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Board/PowerBar"]
-autoplay = "RESET"
-anims/RESET = SubResource( 25 )
-anims/wiggle = SubResource( 26 )
+[node name="Tween" type="Tween" parent="Board/Control/PowerBar"]
 
 [node name="Level" type="Node2D" parent="Board"]
 
@@ -306,6 +247,7 @@ position = Vector2( 24, -24 )
 position = Vector2( 0, -192 )
 
 [node name="Camera2D" type="Camera2D" parent="Board"]
+position = Vector2( 6, -22 )
 current = true
 smoothing_enabled = true
 script = ExtResource( 5 )
