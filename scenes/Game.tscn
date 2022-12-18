@@ -12,7 +12,7 @@
 [ext_resource path="res://assets/peggle.png" type="Texture" id=10]
 [ext_resource path="res://assets/green-circle.png" type="Texture" id=11]
 [ext_resource path="res://scenes/PowerBar.gd" type="Script" id=12]
-[ext_resource path="res://assets/charge-bar-empty.png" type="Texture" id=13]
+[ext_resource path="res://assets/side-bar-full.png" type="Texture" id=13]
 
 [sub_resource type="Shader" id=27]
 code = "shader_type canvas_item;
@@ -147,14 +147,22 @@ margin_right = -455.0
 margin_bottom = -161.0
 script = ExtResource( 12 )
 
+[node name="SideBar" type="TextureProgress" parent="Board/Control"]
+margin_left = 172.0
+margin_top = -3.0
+margin_right = 212.0
+margin_bottom = 389.0
+max_value = 5.0
+texture_progress = ExtResource( 13 )
+fill_mode = 3
+
 [node name="PowerBar" type="TextureProgress" parent="Board/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 174.0
-margin_top = -5.0
-margin_right = 240.0
-margin_bottom = 398.0
-texture_under = ExtResource( 13 )
+margin_left = 187.0
+margin_top = -3.0
+margin_right = 253.0
+margin_bottom = 400.0
 texture_progress = ExtResource( 6 )
 fill_mode = 3
 
@@ -272,4 +280,5 @@ rotation = -1.00852
 scale = Vector2( 0.636697, 0.563808 )
 texture = ExtResource( 7 )
 
+[connection signal="tween_all_completed" from="Board/Control/PowerBar/Tween" to="Board/Control" method="_on_Tween_tween_all_completed"]
 [connection signal="body_entered" from="Board/Level/End" to="Board/Level/End" method="_on_End_body_entered"]

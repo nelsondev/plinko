@@ -103,4 +103,5 @@ anims/fade = SubResource( 20 )
 [node name="BallFullyCharged" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 26 )
+frame = 1
 playing = true
