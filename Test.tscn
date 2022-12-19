@@ -276,7 +276,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=41]
 resource_name = "camera"
-length = 6.0
+length = 16.0
 loop = true
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
@@ -302,7 +302,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.9, 1, 5.9 ),
+"times": PoolRealArray( 0, 0.9, 1, 15.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 128, 160 ), Vector2( 128, 160 ), Vector2( -896, 164 ), Vector2( -896, 164 ) ]
@@ -361,8 +361,9 @@ margin_bottom = 1040.0
 texture = ExtResource( 2 )
 
 [node name="Hologram" type="Sprite" parent="Background"]
-position = Vector2( 1004, 436 )
+position = Vector2( 1000, 384 )
 rotation = 3.14159
+scale = Vector2( 0.709567, 0.709567 )
 texture = SubResource( 44 )
 
 [node name="Particles2D" type="Particles2D" parent="Background"]
