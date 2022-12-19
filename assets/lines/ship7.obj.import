@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/ship7.obj-808a9d075541cea9a69e96e79718aecf.mesh"
+
+[deps]
+
+files=[ "res://.import/ship7.obj-808a9d075541cea9a69e96e79718aecf.mesh" ]
+
+source_file="res://assets/lines/ship7.obj"
+dest_files=[ "res://.import/ship7.obj-808a9d075541cea9a69e96e79718aecf.mesh", "res://.import/ship7.obj-808a9d075541cea9a69e96e79718aecf.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
