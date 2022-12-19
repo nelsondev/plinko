@@ -167,13 +167,13 @@ void fragment()
 
 [sub_resource type="ShaderMaterial" id=46]
 shader = SubResource( 45 )
-shader_param/angle = 0.0
-shader_param/position = 0.007
-shader_param/spread = 1.0
+shader_param/angle = 0.242
+shader_param/position = 0.275
+shader_param/spread = 0.535
 shader_param/cutoff = 0.1
 shader_param/falloff = 1.0
-shader_param/edge_fade = 0.474
-shader_param/speed = 1.0
+shader_param/edge_fade = 0.385
+shader_param/speed = 10.0
 shader_param/ray1_density = 8.0
 shader_param/ray2_density = 30.0
 shader_param/ray2_intensity = 0.3
@@ -318,7 +318,7 @@ size = Vector2( 500, 500 )
 own_world = true
 transparent_bg = true
 handle_input_locally = false
-keep_3d_linear = true
+hdr = false
 
 [node name="Hologram" parent="Viewport" instance=ExtResource( 20 )]
 
@@ -334,10 +334,10 @@ theme = ExtResource( 5 )
 [node name="Glow" type="Panel" parent="Background"]
 modulate = Color( 1, 1, 1, 0.4 )
 material = SubResource( 46 )
-margin_left = 1120.0
-margin_top = 572.0
-margin_right = 1362.0
-margin_bottom = 732.0
+margin_left = 1152.0
+margin_top = 560.0
+margin_right = 1394.0
+margin_bottom = 720.0
 rect_rotation = 180.0
 
 [node name="CockpitBackground" type="TextureRect" parent="Background"]
@@ -352,6 +352,7 @@ margin_bottom = 1040.0
 texture = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Background/CockpitLines"]
+autoplay = "flash"
 anims/RESET = SubResource( 36 )
 anims/flash = SubResource( 37 )
 
@@ -362,7 +363,7 @@ margin_bottom = 1040.0
 texture = ExtResource( 2 )
 
 [node name="Hologram" type="Sprite" parent="Background"]
-position = Vector2( 1000, 384 )
+position = Vector2( 1000, 360 )
 rotation = 3.14159
 scale = Vector2( 0.709567, 0.709567 )
 texture = SubResource( 44 )
