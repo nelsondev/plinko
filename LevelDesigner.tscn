@@ -63,7 +63,7 @@ mouse_filter = 2
 input_pass_on_modal_close_click = false
 script = ExtResource( 2 )
 SIZE_PEG = Vector2( 18, 18 )
-SIZE_GRID = Vector2( 29, 21 )
+SIZE_GRID = Vector2( 21, 16 )
 
 [node name="Pan" type="Panel" parent="CanvasLayer"]
 anchor_left = 0.333
