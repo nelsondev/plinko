@@ -12,16 +12,21 @@ _global_script_classes=[ {
 "base": "RigidBody2D",
 "class": "Ball",
 "language": "GDScript",
-"path": "res://scenes/Ball.gd"
+"path": "res://scripts/Ball.gd"
+}, {
+"base": "Node2D",
+"class": "PegglePositions",
+"language": "GDScript",
+"path": "res://scripts/PegglePositions.gd"
 } ]
 _global_script_class_icons={
-"Ball": ""
+"Ball": "",
+"PegglePositions": ""
 }
 
 [application]
 
 config/name="Peggle"
-run/main_scene="res://scenes/Game.tscn"
 
 [autoload]
 

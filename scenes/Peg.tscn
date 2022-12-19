@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://assets/peg-sheet.png" type="Texture" id=1]
-[ext_resource path="res://assets/circle.png" type="Texture" id=2]
-[ext_resource path="res://scenes/Peg.gd" type="Script" id=3]
+[ext_resource path="res://assets/pegs/peg-sheet.png" type="Texture" id=1]
+[ext_resource path="res://assets/ball/ballLevel2.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Peg.gd" type="Script" id=3]
 
 [sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 1 )
@@ -63,7 +63,7 @@ script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -71,6 +71,7 @@ visible = false
 shape = SubResource( 16 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
+visible = false
 emitting = false
 amount = 20
 lifetime = 0.2
