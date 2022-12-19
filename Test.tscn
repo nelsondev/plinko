@@ -487,9 +487,8 @@ margin_bottom = 1040.0
 texture = ExtResource( 2 )
 
 [node name="Hologram" type="Sprite" parent="Background"]
-position = Vector2( 1000, 360 )
+position = Vector2( 1000, 384 )
 rotation = 3.14159
-scale = Vector2( 0.709567, 0.709567 )
 texture = SubResource( 44 )
 
 [node name="Glow2" type="Panel" parent="Background"]
