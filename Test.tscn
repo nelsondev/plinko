@@ -318,6 +318,7 @@ size = Vector2( 500, 500 )
 own_world = true
 transparent_bg = true
 handle_input_locally = false
+keep_3d_linear = true
 
 [node name="Hologram" parent="Viewport" instance=ExtResource( 20 )]
 

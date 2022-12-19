@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/lines/ship0.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Hologram.gd" type="Script" id=2]
 
 [sub_resource type="SpatialMaterial" id=21]
 flags_unshaded = true
@@ -24,20 +25,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=3]
 resource_name = "default"
 length = 8.0
-loop = true
 step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5, 5.75, 6, 6.25, 6.5, 6.75, 7, 7.25, 7.5, 7.75, 8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 22, 22, 0 ), Vector3( 45, 45, 0 ), Vector3( 67, 67, 0 ), Vector3( 90, 90, 0 ), Vector3( 112, 112, 0 ), Vector3( 135, 135, 0 ), Vector3( 157, 157, 0 ), Vector3( 180, 180, 0 ), Vector3( 202, 202, 0 ), Vector3( 225, 225, 0 ), Vector3( 247, 247, 0 ), Vector3( 270, 270, 0 ), Vector3( 292, 292, 0 ), Vector3( 315, 315, 0 ), Vector3( 337, 337, 0 ), Vector3( 360, 360, 0 ), Vector3( 382, 382, 0 ), Vector3( 405, 405, 0 ), Vector3( 427, 427, 0 ), Vector3( 450, 450, 0 ), Vector3( 472, 472, 0 ), Vector3( 495, 495, 0 ), Vector3( 517, 517, 0 ), Vector3( 540, 540, 0 ), Vector3( 562, 562, 0 ), Vector3( 585, 585, 0 ), Vector3( 607, 607, 0 ), Vector3( 630, 630, 0 ), Vector3( 652, 652, 0 ), Vector3( 675, 675, 0 ), Vector3( 697, 697, 0 ), Vector3( 720, 720, 0 ) ]
-}
 
 [sub_resource type="ArrayMesh" id=17]
 surfaces/0 = {
@@ -74,6 +62,7 @@ flags_unshaded = true
 albedo_color = Color( 0.572549, 0.909804, 0.752941, 1 )
 
 [node name="Hologram" type="Spatial"]
+script = ExtResource( 2 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( -0.421195, 0, -0.90697, 0, 1, 0, 0.90697, 0, -0.421195, -7.0573, 0, 4.14283 )
@@ -85,7 +74,6 @@ mesh = ExtResource( 1 )
 material/0 = SubResource( 21 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MeshInstance"]
-autoplay = "default"
 anims/RESET = SubResource( 2 )
 anims/default = SubResource( 3 )
 
