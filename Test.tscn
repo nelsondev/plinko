@@ -352,7 +352,6 @@ margin_bottom = 1040.0
 texture = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Background/CockpitLines"]
-autoplay = "flash"
 anims/RESET = SubResource( 36 )
 anims/flash = SubResource( 37 )
 
