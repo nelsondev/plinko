@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/ship0.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Hologram.gd" type="Script" id=2]
 [ext_resource path="res://godot/Hologram.tres" type="Material" id=3]
 [ext_resource path="res://godot/HologramOutline.tres" type="Material" id=4]
+[ext_resource path="res://assets/crosshair.png" type="Texture" id=5]
 
 [sub_resource type="ArrayMesh" id=19]
 surfaces/0 = {
@@ -53,6 +54,47 @@ surfaces/0 = {
 "vertex_count": 522
 }
 
+[sub_resource type="Animation" id=24]
+resource_name = "default"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Crosshair:scale")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.1, 1.2, 2.3, 2.4, 3.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Crosshair2:scale")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.4, 1.5, 1.6, 2, 2.1, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Crosshair3:scale")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.7, 0.8, 3, 3.1, 3.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+}
+
 [node name="Hologram" type="Spatial"]
 script = ExtResource( 2 )
 
@@ -60,39 +102,40 @@ script = ExtResource( 2 )
 transform = Transform( -0.421195, 0, -0.90697, 0, 1, 0, 0.90697, 0, -0.421195, -7.0573, 0, 4.14283 )
 omni_range = 90.6617
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 3.414, 0 )
+[node name="Ship" type="MeshInstance" parent="."]
+transform = Transform( 0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.184314, 3.94227, 0 )
 mesh = ExtResource( 1 )
 material/0 = ExtResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="MeshInstance"]
+[node name="MeshInstance" type="MeshInstance" parent="Ship"]
 mesh = SubResource( 19 )
 material/0 = ExtResource( 4 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 0.0192836, -0.0229813, -1.00455e-09, 0, -1.31134e-09, 0.03, -0.0229813, -0.0192836, -8.42914e-10, 2.016, 3.034, 0 )
-mesh = ExtResource( 1 )
-material/0 = ExtResource( 3 )
-
-[node name="MeshInstance" type="MeshInstance" parent="MeshInstance2"]
-mesh = SubResource( 19 )
-material/0 = ExtResource( 4 )
-
-[node name="Planet" type="MeshInstance" parent="."]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1.717, 1.81, 0 )
+[node name="Sun" type="MeshInstance" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.479768, 0.140794, 0, -0.140794, 0.479768, -0.639052, 2.1083, 0.173265 )
 mesh = SubResource( 20 )
 material/0 = ExtResource( 3 )
 
-[node name="MeshInstance3" type="MeshInstance" parent="Planet"]
+[node name="MeshInstance3" type="MeshInstance" parent="Sun"]
 mesh = SubResource( 21 )
 material/0 = ExtResource( 4 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Planet"]
+[node name="Planet" type="MeshInstance" parent="Sun"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0462343, 0.0994282, 2.96607 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 3 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="Sun/Planet"]
+mesh = SubResource( 21 )
+material/0 = ExtResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Sun/Planet"]
 transform = Transform( 0.707107, 0.5, 0.5, 0, 0.707107, -0.707107, -0.707107, 0.5, 0.5, 0, 0, 0 )
 mesh = SubResource( 22 )
 material/0 = ExtResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Planet/MeshInstance"]
+[node name="MeshInstance" type="MeshInstance" parent="Sun/Planet/MeshInstance"]
 mesh = SubResource( 23 )
 material/0 = ExtResource( 4 )
 
@@ -101,3 +144,22 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3967, 14.6929 )
 projection = 1
 fov = 87.2
 size = 6.95
+
+[node name="Crosshair" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.671747, 3.39948, 2.24289 )
+modulate = Color( 0.901961, 0.270588, 0.223529, 1 )
+texture = ExtResource( 5 )
+
+[node name="Crosshair2" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.362384, 2.63071, 2.24289 )
+modulate = Color( 0.901961, 0.270588, 0.223529, 1 )
+texture = ExtResource( 5 )
+
+[node name="Crosshair3" type="Sprite3D" parent="."]
+transform = Transform( 0.555556, 0, 0, 0, 0.555556, 0, 0, 0, 0.555556, -0.362384, 4.24597, 2.24289 )
+modulate = Color( 0.901961, 0.270588, 0.223529, 1 )
+texture = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 24 )

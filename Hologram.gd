@@ -10,5 +10,6 @@ func _ready():
 	timer.start()
 	
 func _animate():
-	$MeshInstance.rotation.x += 0.15
-	$MeshInstance.rotation.y += 0.15
+	$Ship.rotation.x += 0.101
+	$Ship.rotation.y += 0.1
+	$Sun.rotation.y += 0.05

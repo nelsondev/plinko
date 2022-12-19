@@ -213,6 +213,47 @@ tracks/0/keys = {
 "values": [ Color( 0.572549, 0.909804, 0.752941, 1 ), Color( 0.901961, 0.270588, 0.223529, 1 ) ]
 }
 
+[sub_resource type="Shader" id=49]
+code = "shader_type canvas_item;
+
+uniform vec2 resolution = vec2(64.0, 64.0);
+uniform float noise : hint_range(0.0, 1.0) = 0.2;
+uniform float distort : hint_range(0.0, 1.0) = 0.06;
+uniform float offset : hint_range(0.0, 1.0) = 0.0;
+
+vec2 random(vec2 uv){
+    uv = vec2(dot(uv, vec2(127.1,311.7)), dot(uv, vec2(269.5,183.3)));
+    return -1.0 + 2.0 * fract(sin(uv) * 43758.5453123);
+}
+
+float between(float lower, float upper, float value) {
+	return step(lower, value) * step(value, upper);
+}
+
+void fragment()
+{
+	vec2 uv = UV;
+	// Distort
+	float oy = offset / 10.;
+	float dist = distort * clamp(offset / 2., 0.25, 0.75);
+	uv.x += dist * between(0.7, 0.8, fract(offset + TIME/2.)) * between(0.4, 0.41 + oy, uv.y);
+	uv.x -= dist * between(0.1, 0.15, fract(offset + TIME/1.)) * between(0.7, 0.71 + oy, uv.y);
+	uv.x += dist * between(0.15, 0.25, fract(offset + TIME/1.)) * between(0.6, 0.61 + oy, uv.y);
+	uv.x += dist * between(0.5, 0.55, fract(offset + TIME/3.)) * between(0.5, 0.73 - oy, uv.y);
+	// Add noise
+	vec4 pxl = texture(TEXTURE, uv);
+	pxl.rgb += clamp(random((ceil(UV * resolution) / resolution) + trunc(fract(TIME) * 4.)).x, 0.0, 1.0) * noise;
+	// Shade
+	COLOR = pxl;
+}"
+
+[sub_resource type="ShaderMaterial" id=50]
+shader = SubResource( 49 )
+shader_param/resolution = Vector2( 256, 256 )
+shader_param/noise = 0.044
+shader_param/distort = 0.249
+shader_param/offset = 0.0
+
 [sub_resource type="ViewportTexture" id=44]
 viewport_path = NodePath("Viewport")
 
@@ -384,55 +425,6 @@ tracks/0/keys = {
 
 [sub_resource type="ShaderMaterial" id=40]
 
-[sub_resource type="Animation" id=42]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../Screen:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -832, 0 ) ]
-}
-
-[sub_resource type="Animation" id=41]
-resource_name = "camera"
-length = 16.0
-loop = true
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "move_to_peggle"
-}, {
-"args": [  ],
-"method": "move_to_center"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../Screen:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.9, 1, 15.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 128, 160 ), Vector2( 128, 160 ), Vector2( -896, 164 ), Vector2( -896, 164 ) ]
-}
-
 [node name="Node2D" type="Node2D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -487,6 +479,7 @@ margin_bottom = 1040.0
 texture = ExtResource( 2 )
 
 [node name="Hologram" type="Sprite" parent="Background"]
+material = SubResource( 50 )
 position = Vector2( 1000, 384 )
 rotation = 3.14159
 texture = SubResource( 44 )
@@ -508,7 +501,7 @@ explosiveness = 1.0
 process_material = SubResource( 38 )
 
 [node name="Light2D" type="Light2D" parent="Background"]
-position = Vector2( 8, 64 )
+position = Vector2( 128, 160 )
 texture = ExtResource( 10 )
 texture_scale = 2.43
 color = Color( 0.945098, 0, 0, 1 )
@@ -520,7 +513,8 @@ anims/RESET = SubResource( 34 )
 anims/flash = SubResource( 35 )
 
 [node name="Screen" type="Node2D" parent="."]
-position = Vector2( -832, 0 )
+visible = false
+position = Vector2( 128, 160 )
 
 [node name="Screen" type="Sprite" parent="Screen"]
 texture = ExtResource( 1 )
@@ -568,8 +562,3 @@ position = Vector2( 1004, 512 )
 position = Vector2( 608, 428 )
 
 [node name="Tween" type="Tween" parent="Camera"]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera"]
-autoplay = "camera"
-anims/RESET = SubResource( 42 )
-anims/camera = SubResource( 41 )
