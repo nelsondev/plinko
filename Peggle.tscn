@@ -516,6 +516,7 @@ anims/RESET = SubResource( 34 )
 anims/flash = SubResource( 35 )
 
 [node name="Screen" type="Node2D" parent="."]
+visible = false
 position = Vector2( 128, 160 )
 
 [node name="Screen" type="Sprite" parent="Screen"]
@@ -555,6 +556,7 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="Peggle" type="Node2D" parent="."]
+visible = false
 position = Vector2( -220, -144 )
 
 [node name="Positions" parent="Peggle" instance=ExtResource( 12 )]
