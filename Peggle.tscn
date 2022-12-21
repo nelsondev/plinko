@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://assets/ui/computer.png" type="Texture" id=1]
 [ext_resource path="res://assets/backgrounds/cockpit-screens.png" type="Texture" id=2]
@@ -444,6 +444,59 @@ tracks/0/keys = {
 "values": [ false, true, false, true ]
 }
 
+[sub_resource type="Animation" id=52]
+resource_name = "flash"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Dots:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Dots:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../Dots:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [node name="Node2D" type="Node2D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -562,6 +615,35 @@ frame = 5
 [node name="Blinker" type="AnimationPlayer" parent="Screen/Screen/PowerBarPanel/SideBar"]
 anims/Blink = SubResource( 51 )
 
+[node name="Peggle" type="Sprite" parent="Screen"]
+visible = false
+modulate = Color( 1.5, 1.5, 1.5, 1 )
+position = Vector2( 728, 76 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+
+[node name="Dots" type="Polygon2D" parent="Screen"]
+visible = false
+modulate = Color( 0.78, 1.34, 0.5, 1 )
+position = Vector2( 724, 76 )
+scale = Vector2( 1.5, 1.5 )
+polygon = PoolVector2Array( -2.66669, 2.66666, -2.66669, 8, -5.33331, 8, -5.33331, 2.66666 )
+
+[node name="Dots2" type="Polygon2D" parent="Screen"]
+visible = false
+modulate = Color( 0.78, 1.34, 0.5, 1 )
+position = Vector2( 708, 76 )
+scale = Vector2( 1.5, 1.5 )
+polygon = PoolVector2Array( -2.66669, 2.66666, -2.66669, 8, -8, 8, -8, 2.66666 )
+
+[node name="Dots3" type="Polygon2D" parent="Screen"]
+visible = false
+modulate = Color( 0.78, 1.34, 0.5, 1 )
+position = Vector2( 685.714, 76 )
+scale = Vector2( 0.642856, 1.5 )
+polygon = PoolVector2Array( -2.66669, 2.66666, -2.66669, 8, -21.3334, 8, -21.3334, 2.66666 )
+
 [node name="ScreenReflections" type="Sprite" parent="Screen"]
 modulate = Color( 1.74118, 1.74118, 1.72941, 0.0509804 )
 light_mask = 0
@@ -575,13 +657,13 @@ light_mask = 0
 texture = ExtResource( 3 )
 centered = false
 
-[node name="Peggle" type="Sprite" parent="Screen"]
-position = Vector2( 728, 76 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
-centered = false
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen"]
+root_node = NodePath("../Peggle")
+autoplay = "flash"
+anims/flash = SubResource( 52 )
 
 [node name="Peggle" type="Node2D" parent="."]
+visible = false
 position = Vector2( -220, -144 )
 
 [node name="Positions" parent="Peggle" instance=ExtResource( 12 )]

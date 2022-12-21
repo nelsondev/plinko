@@ -10,7 +10,7 @@
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id=15]
-radius = 4.0
+radius = 8.0
 
 [sub_resource type="Animation" id=20]
 resource_name = "fade"
@@ -82,5 +82,4 @@ anims/fade = SubResource( 20 )
 [node name="BallFullyCharged" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 26 )
-frame = 2
 playing = true

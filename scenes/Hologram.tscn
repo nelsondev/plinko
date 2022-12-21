@@ -145,7 +145,7 @@ mesh = SubResource( 23 )
 material/0 = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3967, 14.6929 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3967, 6.69947 )
 projection = 1
 fov = 87.2
 size = 6.95
