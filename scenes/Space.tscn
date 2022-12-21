@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://assets/space.png" type="Texture" id=1]
+[ext_resource path="res://assets/spaceowo.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/DrawSuns.gd" type="Script" id=2]
 [ext_resource path="res://godot/Hologram.tres" type="Material" id=3]
 [ext_resource path="res://godot/HologramOutline.tres" type="Material" id=4]
@@ -61,12 +61,13 @@ visible = false
 omni_range = 90.6617
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.850361, 0.526199, 0, -0.526199, 0.850361, 0, 17.92, 6.69947 )
+transform = Transform( -4.37114e-08, 0.526199, -0.850361, 0, 0.850361, 0.526199, 1, 2.30009e-08, -3.71705e-08, 0, 21.071, 6.699 )
 current = true
-fov = 73.1
+fov = 98.1
 size = 36.15
 
 [node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 0.0369751, 0, -0.999316, 0, 1, 0, 0.999316, 0, 0.0369751, 2.34366, 4.87365, 2.7689 )
 
 [node name="Sun" type="MeshInstance" parent="Spatial"]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -3.03174, 4.73163, -5.75665 )
