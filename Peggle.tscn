@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://assets/ui/computer.png" type="Texture" id=1]
 [ext_resource path="res://assets/backgrounds/cockpit-screens.png" type="Texture" id=2]
@@ -6,13 +6,15 @@
 [ext_resource path="res://assets/backgrounds/cockpit-lines.png" type="Texture" id=4]
 [ext_resource path="res://godot/theme.tres" type="Theme" id=5]
 [ext_resource path="res://assets/ui/computer-glare.png" type="Texture" id=6]
-[ext_resource path="res://assets/ui/both-bars-full.png" type="Texture" id=7]
+[ext_resource path="res://assets/ui/charge-bar-full.png" type="Texture" id=7]
 [ext_resource path="res://assets/backgrounds/cockpit-background.png" type="Texture" id=8]
 [ext_resource path="res://assets/ui/peggle.png" type="Texture" id=9]
 [ext_resource path="res://assets/ui/light.png" type="Texture" id=10]
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=11]
 [ext_resource path="res://scenes/PegglePositions.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scripts/Pegs.gd" type="Script" id=13]
+[ext_resource path="res://PowerBarPanel.gd" type="Script" id=14]
+[ext_resource path="res://assets/ui/side-bar-sheet3.png" type="Texture" id=15]
 [ext_resource path="res://scenes/Hologram.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Environment" id=33]
@@ -426,7 +428,21 @@ tracks/0/keys = {
 "values": [ 2.05, 0.0 ]
 }
 
-[sub_resource type="ShaderMaterial" id=40]
+[sub_resource type="Animation" id=51]
+resource_name = "Blink"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true ]
+}
 
 [node name="Node2D" type="Node2D"]
 
@@ -522,18 +538,29 @@ position = Vector2( 128, 160 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Both-bars-full" type="Sprite" parent="Screen/Screen"]
-modulate = Color( 0.56, 1.29, 0.37, 1 )
-material = SubResource( 40 )
-position = Vector2( 200, 268 )
-texture = ExtResource( 7 )
+[node name="PowerBarPanel" type="Control" parent="Screen/Screen"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 14 )
 
-[node name="Both-bars-full2" type="Sprite" parent="Screen/Screen"]
-visible = false
-modulate = Color( 1.16, 2.33, 2.89, 1 )
-material = SubResource( 40 )
-position = Vector2( 200, 268 )
-texture = ExtResource( 7 )
+[node name="PowerBar" type="TextureProgress" parent="Screen/Screen/PowerBarPanel"]
+margin_left = 184.0
+margin_top = 76.0
+margin_right = 230.0
+margin_bottom = 468.0
+texture_progress = ExtResource( 7 )
+fill_mode = 3
+
+[node name="Tween" type="Tween" parent="Screen/Screen/PowerBarPanel/PowerBar"]
+
+[node name="SideBar" type="Sprite" parent="Screen/Screen/PowerBarPanel"]
+position = Vector2( 175, 272 )
+texture = ExtResource( 15 )
+hframes = 6
+frame = 5
+
+[node name="Blinker" type="AnimationPlayer" parent="Screen/Screen/PowerBarPanel/SideBar"]
+anims/Blink = SubResource( 51 )
 
 [node name="ScreenReflections" type="Sprite" parent="Screen"]
 modulate = Color( 1.74118, 1.74118, 1.72941, 0.0509804 )
@@ -563,7 +590,7 @@ position = Vector2( 648, 400 )
 [node name="Pegs" type="Node2D" parent="Peggle"]
 position = Vector2( 648, 400 )
 script = ExtResource( 13 )
-LEVEL_JSON = "res://designer/level-1671484726.json"
+LEVEL_JSON = "res://designer/level-1671495966.json"
 POSITIONS_NODE = NodePath("../Positions")
 
 [node name="Bounds" type="StaticBody2D" parent="Peggle"]
@@ -590,3 +617,5 @@ position = Vector2( 1004, 512 )
 position = Vector2( 608, 428 )
 
 [node name="Tween" type="Tween" parent="Camera"]
+
+[connection signal="tween_all_completed" from="Screen/Screen/PowerBarPanel/PowerBar/Tween" to="Screen/Screen/PowerBarPanel" method="_on_Tween_tween_all_completed"]
