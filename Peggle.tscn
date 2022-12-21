@@ -13,7 +13,7 @@
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=11]
 [ext_resource path="res://scenes/PegglePositions.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scripts/Pegs.gd" type="Script" id=13]
-[ext_resource path="res://PowerBarPanel.gd" type="Script" id=14]
+[ext_resource path="res://scripts/PowerBarPanel.gd" type="Script" id=14]
 [ext_resource path="res://assets/ui/side-bar-sheet3.png" type="Texture" id=15]
 [ext_resource path="res://scenes/Hologram.tscn" type="PackedScene" id=20]
 
@@ -532,7 +532,6 @@ anims/RESET = SubResource( 34 )
 anims/flash = SubResource( 35 )
 
 [node name="Screen" type="Node2D" parent="."]
-visible = false
 position = Vector2( 128, 160 )
 
 [node name="Screen" type="Sprite" parent="Screen"]
@@ -583,7 +582,6 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="Peggle" type="Node2D" parent="."]
-visible = false
 position = Vector2( -220, -144 )
 
 [node name="Positions" parent="Peggle" instance=ExtResource( 12 )]

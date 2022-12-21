@@ -9,5 +9,4 @@ func get_camera(): return get_root().get_node("Board/Camera2D")
 
 func add_charge(amount = 1): 
 	charge += 1
-	
 	emit_signal("charge_added")
