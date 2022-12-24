@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://assets/ui/computer.png" type="Texture" id=1]
 [ext_resource path="res://assets/backgrounds/cockpit-screens.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://scripts/Pegs.gd" type="Script" id=13]
 [ext_resource path="res://scripts/PowerBarPanel.gd" type="Script" id=14]
 [ext_resource path="res://assets/ui/side-bar-sheet3.png" type="Texture" id=15]
+[ext_resource path="res://scenes/Space.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scenes/Hologram.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Environment" id=33]
@@ -262,6 +263,9 @@ shader_param/offset = 0.0
 [sub_resource type="ViewportTexture" id=44]
 viewport_path = NodePath("Viewport")
 
+[sub_resource type="ViewportTexture" id=53]
+viewport_path = NodePath("ViewportTravelHologram")
+
 [sub_resource type="Shader" id=47]
 code = "/*
 Shader from Godot Shaders - the free shader library.
@@ -502,14 +506,22 @@ tracks/3/keys = {
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 33 )
 
-[node name="Viewport" type="Viewport" parent="."]
+[node name="ViewportShipHologram" type="Viewport" parent="."]
 size = Vector2( 500, 500 )
 own_world = true
 transparent_bg = true
 handle_input_locally = false
 hdr = false
 
-[node name="Hologram" parent="Viewport" instance=ExtResource( 20 )]
+[node name="Hologram" parent="ViewportShipHologram" instance=ExtResource( 20 )]
+
+[node name="ViewportTravelHologram" type="Viewport" parent="."]
+size = Vector2( 500, 500 )
+own_world = true
+handle_input_locally = false
+hdr = false
+
+[node name="Hologram" parent="ViewportTravelHologram" instance=ExtResource( 16 )]
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -551,10 +563,17 @@ margin_bottom = 1040.0
 texture = ExtResource( 2 )
 
 [node name="Hologram" type="Sprite" parent="Background"]
+visible = false
 material = SubResource( 50 )
 position = Vector2( 1000, 384 )
 rotation = 3.14159
 texture = SubResource( 44 )
+
+[node name="HologramTravel" type="Sprite" parent="Background"]
+material = SubResource( 50 )
+position = Vector2( 1000, 384 )
+rotation = 3.14159
+texture = SubResource( 53 )
 
 [node name="Glow2" type="Panel" parent="Background"]
 modulate = Color( 1, 1, 1, 0.4 )
@@ -585,6 +604,7 @@ anims/RESET = SubResource( 34 )
 anims/flash = SubResource( 35 )
 
 [node name="Screen" type="Node2D" parent="."]
+visible = false
 position = Vector2( 128, 160 )
 
 [node name="Screen" type="Sprite" parent="Screen"]
