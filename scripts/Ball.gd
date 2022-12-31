@@ -9,6 +9,7 @@ onready var timer = Timer.new()
 
 func _ready():
 	sleeping = true
+	gravity_scale = 0
 	contact_monitor = true
 	contacts_reported = 5
 		
@@ -25,7 +26,7 @@ func _draw():
 	
 func _process(delta):
 	_check_collide()
-	$Ball.frame = clamp(Game.charge, 0, 2)
+	$BallSprite.frame = clamp(Game.charge, 0, 2)
 	$Light.visible = Game.charge >= 1
 	$BallFullyCharged.visible = Game.charge >= 3
 
@@ -33,6 +34,7 @@ func _process(delta):
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():
 		sleeping = false
+		gravity_scale = 2.5
 		apply_central_impulse(VELOCITY * global_position.direction_to(get_global_mouse_position()))
 
 # Create those physics simulated balls

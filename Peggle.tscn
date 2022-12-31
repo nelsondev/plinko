@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://assets/ui/computer.png" type="Texture" id=1]
 [ext_resource path="res://assets/backgrounds/cockpit-screens.png" type="Texture" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://scripts/PowerBarPanel.gd" type="Script" id=14]
 [ext_resource path="res://assets/ui/side-bar-sheet3.png" type="Texture" id=15]
 [ext_resource path="res://scenes/Space.tscn" type="PackedScene" id=16]
+[ext_resource path="res://soundfx/PowerBarUp.wav" type="AudioStream" id=17]
+[ext_resource path="res://soundfx/PowerBarDown.wav" type="AudioStream" id=18]
 [ext_resource path="res://scenes/Hologram.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Environment" id=33]
@@ -442,10 +444,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false, true ]
+"values": [ false, true, false, true, false ]
 }
 
 [sub_resource type="Animation" id=52]
@@ -501,7 +503,10 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=54]
+extents = Vector2( 276, 12 )
+
+[node name="MainGame" type="Node2D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 33 )
@@ -570,6 +575,7 @@ rotation = 3.14159
 texture = SubResource( 44 )
 
 [node name="HologramTravel" type="Sprite" parent="Background"]
+visible = false
 material = SubResource( 50 )
 position = Vector2( 1000, 384 )
 rotation = 3.14159
@@ -585,6 +591,7 @@ margin_bottom = 725.0
 rect_rotation = 180.0
 
 [node name="Particles2D" type="Particles2D" parent="Background"]
+visible = false
 position = Vector2( 112, 12 )
 amount = 80
 lifetime = 7.0
@@ -604,7 +611,6 @@ anims/RESET = SubResource( 34 )
 anims/flash = SubResource( 35 )
 
 [node name="Screen" type="Node2D" parent="."]
-visible = false
 position = Vector2( 128, 160 )
 
 [node name="Screen" type="Sprite" parent="Screen"]
@@ -624,9 +630,18 @@ margin_bottom = 468.0
 texture_progress = ExtResource( 7 )
 fill_mode = 3
 
-[node name="Tween" type="Tween" parent="Screen/Screen/PowerBarPanel/PowerBar"]
+[node name="UpTween" type="Tween" parent="Screen/Screen/PowerBarPanel/PowerBar"]
+
+[node name="DownTween" type="Tween" parent="Screen/Screen/PowerBarPanel/PowerBar"]
+
+[node name="BarUp" type="AudioStreamPlayer" parent="Screen/Screen/PowerBarPanel/PowerBar"]
+stream = ExtResource( 17 )
+
+[node name="BarDown" type="AudioStreamPlayer" parent="Screen/Screen/PowerBarPanel/PowerBar"]
+stream = ExtResource( 18 )
 
 [node name="SideBar" type="Sprite" parent="Screen/Screen/PowerBarPanel"]
+visible = false
 position = Vector2( 175, 272 )
 texture = ExtResource( 15 )
 hframes = 6
@@ -683,16 +698,16 @@ autoplay = "flash"
 anims/flash = SubResource( 52 )
 
 [node name="Peggle" type="Node2D" parent="."]
-visible = false
 position = Vector2( -220, -144 )
 
 [node name="Positions" parent="Peggle" instance=ExtResource( 12 )]
+visible = false
 position = Vector2( 648, 400 )
 
 [node name="Pegs" type="Node2D" parent="Peggle"]
 position = Vector2( 648, 400 )
 script = ExtResource( 13 )
-LEVEL_JSON = "res://designer/level-1671495966.json"
+LEVEL_JSON = "res://designer/level-1671484726.json"
 POSITIONS_NODE = NodePath("../Positions")
 
 [node name="Bounds" type="StaticBody2D" parent="Peggle"]
@@ -701,7 +716,13 @@ collision_layer = 15
 collision_mask = 15
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Peggle/Bounds"]
-polygon = PoolVector2Array( 0, 0, 0, 412, -16, 428, -16, -16, 536, -16, 536, 428, -16, 428, 0, 412, 520, 412, 520, 0 )
+polygon = PoolVector2Array( 0, 0, -1, 429, -17, 429, -16, -16, 536, -16, 536, 429, 520, 429, 520, 0 )
+
+[node name="OutOfBounds" type="Area2D" parent="Peggle"]
+
+[node name="BoundsShape" type="CollisionShape2D" parent="Peggle/OutOfBounds"]
+position = Vector2( 887, 785 )
+shape = SubResource( 54 )
 
 [node name="Camera" type="Node2D" parent="."]
 script = ExtResource( 11 )
@@ -720,4 +741,5 @@ position = Vector2( 608, 428 )
 
 [node name="Tween" type="Tween" parent="Camera"]
 
-[connection signal="tween_all_completed" from="Screen/Screen/PowerBarPanel/PowerBar/Tween" to="Screen/Screen/PowerBarPanel" method="_on_Tween_tween_all_completed"]
+[connection signal="tween_all_completed" from="Screen/Screen/PowerBarPanel/PowerBar/UpTween" to="Screen/Screen/PowerBarPanel" method="_on_UpTween_tween_all_completed"]
+[connection signal="tween_all_completed" from="Screen/Screen/PowerBarPanel/PowerBar/DownTween" to="Screen/Screen/PowerBarPanel" method="_on_DownTween_tween_all_completed"]

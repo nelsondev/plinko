@@ -30,3 +30,16 @@ func _load_pegs():
 		var peg = PEG.instance()
 		peg.transform.origin = position
 		add_child(peg)
+		if data["peg"] == 0:
+			peg.name = "ball"
+
+func _load_ball():
+	for data in level_data:
+		if data["peg"] != 0:
+			continue
+		var position = positions_node.find(Vector2(data["position"]["x"], data["position"]["y"]))
+		var PEG = PEGS_SCENES[data["peg"]]
+		var peg = PEG.instance()
+		peg.name = "ball"
+		peg.transform.origin = position
+		add_child(peg)

@@ -32,6 +32,7 @@ run/main_scene="res://Peggle.tscn"
 [autoload]
 
 Game="*res://Game.gd"
+GameState="*res://GameState.gd"
 
 [display]
 

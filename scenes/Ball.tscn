@@ -64,10 +64,10 @@ script = ExtResource( 3 )
 GHOST = ExtResource( 2 )
 VELOCITY = 250
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BallCollision" type="CollisionShape2D" parent="."]
 shape = SubResource( 15 )
 
-[node name="Ball" type="Sprite" parent="."]
+[node name="BallSprite" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 hframes = 3
 
@@ -82,4 +82,5 @@ anims/fade = SubResource( 20 )
 [node name="BallFullyCharged" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 26 )
+frame = 3
 playing = true
